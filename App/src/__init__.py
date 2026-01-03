@@ -6,10 +6,7 @@ def create_app():
         static_folder="../static",
         template_folder="../templates"
     )
-@app.route("/")
-def home():
-    return "FunZone is alive"
-
-    app.config.from_object("App.src.config")
-
+    @app.route("/")
+    def home():
+        return "FunZone is alive"
     return app
