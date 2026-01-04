@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
 
 def create_app():
@@ -11,18 +10,15 @@ def create_app():
         template_folder="../templates"
     )
 
+    app.config["SECRET_KEY"] = "funzone-secret-key"
     app.config.from_object("app.src.config.Config")
 
     db.init_app(app)
 
-    # ✅ DATABASE CONNECTION CHECK
-    with app.app_context():
-        try:
-            db.engine.connect()
-            print("✅ Database connected successfully")
-        except Exception as e:
-            print("❌ Database connection failed")
-            print(e)
+    
+    from .Controllers.auth_controller import auth_bp
+
+    app.register_blueprint(auth_bp)
 
     @app.route("/")
     def home():
