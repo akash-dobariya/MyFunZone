@@ -1,8 +1,3 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-.kotlin
 
 ### Eclipse ###
 .apt_generated
@@ -23,6 +18,7 @@ bin/
 /nbdist/
 /.nb-gradle/
 
+__pycache/*.pyc
 ### VS Code ###
 .vscode/
 
