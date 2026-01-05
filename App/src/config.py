@@ -1,4 +1,4 @@
 class Config:
-    SECRET_KEY = "funzone-secret"
+    SECRET_KEY = "funzone-secret-key"
     SQLALCHEMY_DATABASE_URI = "postgresql://postgres:1234@localhost:5432/myfunzone"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
