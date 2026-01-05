@@ -1,18 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Staff Home</title>
+    <title>Staff Dashboard | FunZone</title>
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg,#11998e,#38ef7d);
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .box{
+            background:#fff;
+            padding:30px;
+            width:420px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 15px 30px rgba(0,0,0,0.2);
+        }
+        h2{ color:#333; }
+        a{
+            display:inline-block;
+            margin-top:20px;
+            padding:10px 20px;
+            background:#11998e;
+            color:#fff;
+            text-decoration:none;
+            border-radius:5px;
+        }
+        a:hover{ background:#0f7f76; }
+    </style>
 </head>
 <body>
 
-<h2>🧑‍💼 Staff Panel</h2>
-
-<ul>
-    <li>Manage Game Availability</li>
-    <li>Assist Users</li>
-</ul>
-
-<a href="/logout">Logout</a>
+<div class="box">
+    <h2>Staff Dashboard</h2>
+    <p>Manage daily operations</p>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+</div>
 
 </body>
 </html>

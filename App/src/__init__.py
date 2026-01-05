@@ -1,8 +1,7 @@
-from flask import Flask, redirect ,url_for
+from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-print("LOADED: app/src/__init__.py")
 
 def create_app():
     app = Flask(
@@ -11,25 +10,29 @@ def create_app():
         template_folder="../templates"
     )
 
-    # Config
     app.config.from_object("app.src.config.Config")
-
-    # Init DB
     db.init_app(app)
 
-    # Disable cache (logout + back button fix)
-    @app.after_request
-    def add_no_cache_headers(response):
-        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, private"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-        return response
+    # 🔹 Create default admin
+    from app.src.models.user import User
+    with app.app_context():
+        db.create_all()
+        admin = User.query.filter_by(role="admin").first()
+        if not admin:
+            admin = User(
+                name="Admin",
+                email="admin@funzone.com",
+                password="admin123",
+                role="admin"
+            )
+            db.session.add(admin)
+            db.session.commit()
 
-    # Register Blueprint (ONLY ONCE)
+    # Register Blueprint
     from app.src.Controllers.auth_Controller import auth_bp
     app.register_blueprint(auth_bp)
 
-    # Home rou
+    # Default route → login
     @app.route("/")
     def home():
         return redirect(url_for("auth.login"))

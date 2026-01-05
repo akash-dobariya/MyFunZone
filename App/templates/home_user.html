@@ -1,20 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>User Home</title>
+    <title>User Dashboard | FunZone</title>
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg,#4e54c8,#8f94fb);
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+        .box{
+            background:#fff;
+            padding:30px;
+            width:400px;
+            border-radius:10px;
+            text-align:center;
+            box-shadow:0 15px 30px rgba(0,0,0,0.2);
+        }
+        h2{ color:#333; }
+        a{
+            display:inline-block;
+            margin-top:20px;
+            padding:10px 20px;
+            background:#4e54c8;
+            color:#fff;
+            text-decoration:none;
+            border-radius:5px;
+        }
+        a:hover{ background:#3b40a4; }
+    </style>
 </head>
 <body>
 
-<h2>🎮 Welcome User</h2>
-
-<p>You can:</p>
-<ul>
-    <li>View Games</li>
-    <li>Book Games</li>
-    <li>View Your Bookings</li>
-</ul>
-
-<a href="/logout">Logout</a>
+<div class="box">
+    <h2>User Dashboard</h2>
+    <p>Welcome to FunZone 🎮</p>
+    <a href="{{ url_for('auth.logout') }}">Logout</a>
+</div>
 
 </body>
 </html>

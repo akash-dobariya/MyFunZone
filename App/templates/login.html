@@ -1,26 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Login | FunZone</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            width: 360px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #4e54c8;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4e54c8;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #3b40a4;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #4e54c8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Login</h2>
+<div class="login-box">
+    <h2>FunZone Login</h2>
 
-<form method="POST">
-    <label>Email</label><br>
-    <input type="email" name="email" required><br><br>
+    <form method="POST">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter email" required>
+        </div>
 
-    <label>Password</label><br>
-    <input type="password" name="password" required><br><br>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password" required>
+        </div>
 
-    <button type="submit">Login</button>
-</form>
+        <button type="submit">Login</button>
+    </form>
 
-<p>
-    New user?
-    <a href="/register">Register</a>
-</p>
+    <div class="register-link">
+        New user?
+        <a href="{{ url_for('auth.register') }}">Register</a>
+
+    </div>
+</div>
 
 </body>
 </html>
