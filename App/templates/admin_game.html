@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Games | FunZone</title>
+</head>
+<body>
+
+<h2>Admin – Manage Games</h2>
+
+<!-- Add Game Form -->
+<form method="POST" action="{{ url_for('game.add_game') }}">
+    <label>Game Name</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Price</label><br>
+    <input type="number" name="price" required><br><br>
+
+    <button type="submit">Add Game</button>
+</form>
+
+<hr>
+
+<!-- Show Games -->
+<h3>Available Games</h3>
+
+{% if games %}
+    <ul>
+        {% for game in games %}
+            <li>
+                {{ game.name }} — ₹{{ game.price }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No games added yet.</p>
+{% endif %}
+
+<br>
+<a href="{{ url_for('auth.home_admin') }}">⬅ Back to Dashboard</a>
+
+</body>
+</html>

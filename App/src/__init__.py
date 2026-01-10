@@ -31,6 +31,9 @@ def create_app():
     # Register Blueprint
     from app.src.Controllers.auth_Controller import auth_bp
     app.register_blueprint(auth_bp)
+    from app.src.Controllers.game_Controller import game_bp
+    app.register_blueprint(game_bp)
+
 
     # Default route → login
     @app.route("/")
