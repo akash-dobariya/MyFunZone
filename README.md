@@ -66,4 +66,4 @@ Project Structure (High Level)
 Notes
 -----
 - OTP is **simulation‑only**: codes are displayed inside the app (no SMS/email).
-- Never commit real database credentials; use environment variables or a secrets manager in production.
+.
