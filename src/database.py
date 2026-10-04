@@ -1,26 +1,53 @@
+import os
 import psycopg2
 from psycopg2 import OperationalError
 import streamlit as st
 from src.utils import hash_password
 
-# Database Configuration
-DB_NAME = "myfunzone"
-DB_USER = "postgres" 
-DB_PASSWORD = "admin"
-DB_HOST = "localhost"
-DB_PORT = "5432"
+def _get_config(key, default=None):
+    """
+    Safely retrieves a configuration value from st.secrets, os.environ, or fallback default.
+    """
+    try:
+        if hasattr(st, "secrets"):
+            if key in st.secrets:
+                return str(st.secrets[key])
+            if "postgres" in st.secrets and key in st.secrets["postgres"]:
+                return str(st.secrets["postgres"][key])
+    except Exception:
+        pass
+
+    val = os.getenv(key)
+    if val is not None:
+        return val
+
+    return default
 
 def get_db_connection():
     """
     Establishes a connection to the PostgreSQL database.
+    Supports DATABASE_URL or individual parameters (DB_HOST, DB_NAME, DB_USER, etc.),
+    falling back to local development defaults.
     """
     try:
+        database_url = _get_config("DATABASE_URL")
+        if database_url:
+            return psycopg2.connect(database_url)
+
+        db_name = _get_config("DB_NAME", "myfunzone")
+        db_user = _get_config("DB_USER", "postgres")
+        db_password = _get_config("DB_PASSWORD", "admin")
+        db_host = _get_config("DB_HOST", "localhost")
+        db_port = _get_config("DB_PORT", "5432")
+        db_sslmode = _get_config("DB_SSLMODE", "require" if db_host not in ("localhost", "127.0.0.1") else "prefer")
+
         conn = psycopg2.connect(
-            dbname=DB_NAME,
-            user=DB_USER,
-            password=DB_PASSWORD,
-            host=DB_HOST,
-            port=DB_PORT
+            dbname=db_name,
+            user=db_user,
+            password=db_password,
+            host=db_host,
+            port=db_port,
+            sslmode=db_sslmode
         )
         return conn
     except OperationalError as e:
