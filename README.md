@@ -52,7 +52,7 @@ streamlit run main.py
 
 Then open the URL shown in the terminal (usually http://localhost:8501) in your browser.
 
-Project Structure (High Level)
+Project Structure 
 -----------------------------
 - `main.py` – Streamlit entrypoint, routing and session handling
 - `views/` – Dashboards for admin, staff, and users
