@@ -39,4 +39,5 @@ env/
 .env
 .env.local
 .streamlit/secrets.toml
+*.sql
 
