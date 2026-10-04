@@ -758,7 +758,7 @@ def show_user_dashboard():
             """, unsafe_allow_html=True)
             
         with col2:
-            img_src2 = f"data:image/png;base64,{get_base64_of_bin_file(os.path.join(BASE_DIR[0:27], 'assets', 'yashvi_photo.jpeg'))}"
+            img_src2 = f"data:image/png;base64,{get_base64_of_bin_file(os.path.join(PROJECT_ROOT, 'assets', 'yashvi_photo.jpeg'))}"
             st.markdown(f"""
             <div class="team-card">
                 <div class="profile-img">

@@ -1,3 +1,4 @@
+import os
 import bcrypt
 import re
 import base64
@@ -104,9 +105,14 @@ class Queue:
 
 
 def get_base64_of_bin_file(bin_file):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
+    if not bin_file or not os.path.exists(bin_file):
+        return ""
+    try:
+        with open(bin_file, 'rb') as f:
+            data = f.read()
+        return base64.b64encode(data).decode()
+    except Exception:
+        return ""
 
 
 def render_footer():
@@ -145,55 +151,64 @@ def apply_role_style(role=None):
     import streamlit as st
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    assets_dir = os.path.abspath(os.path.join(BASE_DIR, "..", "assets"))
     
-    bg_url = ""
-    overlay_opacity = 0.7
-    admin_style = False
-    user_style = False
-    staff_style = False
+    admin_style = (role == "admin")
+    user_style = (role == "user")
+    staff_style = (role == "staff")
 
-    if role == "user":
-        user_style = True
-        try:
-            local_img_path = os.path.join(BASE_DIR[0:27], "assets", "User_bg1.png")
-
-            if not os.path.exists(local_img_path):
-                st.error("❌ assets/User_bg.png not found")
-                return
-
-            bin_str = get_base64_of_bin_file(local_img_path)
-            bg_url = f"data:image/png;base64,{bin_str}"
-            overlay_opacity = 0.75
-
-        except Exception as e:
-            st.error(f"Background load failed: {e}")
-            return
-
-    elif role == "staff":
-        staff_style = True
-        try:
-            local_img_path = os.path.join(BASE_DIR[0:27], "assets", "User_bg1.png")
-
-            if not os.path.exists(local_img_path):
-                st.error("❌ assets/User_bg.png not found")
-                return
-
-            bin_str = get_base64_of_bin_file(local_img_path)
-            bg_url = f"data:image/png;base64,{bin_str}"
-            overlay_opacity = 0.75
-
-        except Exception as e:
-            st.error(f"Background load failed: {e}")
-            return        
-     
-
-    elif role == "admin":
-        admin_style = True
-    
-     
-
+    # Priority candidates for background image from assets
+    if user_style:
+        candidates = ["User_bg1.png", "bg1.png", "all.jpg"]
+    elif staff_style:
+        candidates = ["staff_bg.png", "User_bg1.png", "bg1.png", "all.jpg"]
+    elif admin_style:
+        candidates = ["admin_bg.png", "bg1.png", "User_bg1.png", "all.jpg"]
     else:
-        bg_url=f"data:image/png;base64,{get_base64_of_bin_file(os.path.join(BASE_DIR[0:27], "assets", "User_bg1.png"))}"
+        candidates = ["bg1.png", "User_bg1.png", "all.jpg"]
+
+    # Search for available background image from assets
+    bg_url = ""
+    for name in candidates:
+        cand_path = os.path.join(assets_dir, name)
+        if os.path.exists(cand_path):
+            bin_str = get_base64_of_bin_file(cand_path)
+            if bin_str:
+                ext = os.path.splitext(name)[1].lower()
+                mime = "image/png" if ext == ".png" else "image/jpeg"
+                bg_url = f"data:{mime};base64,{bin_str}"
+                break
+
+    # If still not found, search assets directory for any background image
+    if not bg_url and os.path.exists(assets_dir):
+        for fname in os.listdir(assets_dir):
+            if fname.lower().endswith(('.png', '.jpg', '.jpeg', '.webp')) and ('bg' in fname.lower() or 'all' in fname.lower()):
+                cand_path = os.path.join(assets_dir, fname)
+                if os.path.isfile(cand_path):
+                    bin_str = get_base64_of_bin_file(cand_path)
+                    if bin_str:
+                        ext = os.path.splitext(fname)[1].lower()
+                        mime = "image/png" if ext == ".png" else "image/jpeg"
+                        bg_url = f"data:{mime};base64,{bin_str}"
+                        break
+
+    if bg_url:
+        st.markdown(
+            f"""
+            <style>
+            .stApp {{
+                background-image: linear-gradient(
+                    rgba(15,23,42,0.82),
+                    rgba(15,23,42,0.90)
+                ), url("{bg_url}") !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-attachment: fixed !important;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
     if admin_style:
         st.markdown(
@@ -465,8 +480,8 @@ def apply_role_style(role=None):
             <style>
             .stApp {{
                 background-image: linear-gradient(
-                    rgba(15,23,42,{overlay_opacity + 0.1}),
-                    rgba(15,23,42,{overlay_opacity + 0.2})
+                    rgba(15,23,42,0.80),
+                    rgba(15,23,42,0.90)
                 ), url("{bg_url}");
                 background-size: cover;
                 background-position: center;
