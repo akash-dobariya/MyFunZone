@@ -1,8 +1,16 @@
 MyFunZone 🎮
 =============
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://myfunzone.streamlit.app/)
+
 Smart booking and management system for an indoor gaming / fun zone.  
 Built with **Python + Streamlit + PostgreSQL**, featuring role‑based dashboards for **Admin**, **Staff**, and **Users**, OTP‑based signup, and modern UI theming.
+
+🚀 Live Demo
+------------
+Explore the live deployed application:  
+👉 **[https://myfunzone.streamlit.app/](https://myfunzone.streamlit.app/)**
+
 
 Key Features
 ------------
